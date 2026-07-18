@@ -1,11 +1,16 @@
 #!/bin/bash
-# 在服务器 47.120.23.164 上更新并运行闲鱼 bot
-# 使用方法：在服务器上直接运行本脚本
-# ssh root@47.120.23.164 'bash -s' < deploy-bot.sh
+# 在服务器上更新并运行闲鱼 bot
+# 使用方法：修改下方变量后，在服务器上直接运行本脚本
+# ssh root@<YOUR_SERVER_IP> 'bash -s' < deploy.sh
 
 set -e
 
+# ====== 请修改以下变量 ======
+SERVER_USER="<YOUR_SERVER_USER>"
+SERVER_IP="<YOUR_SERVER_IP>"
 BOT_DIR="/root/bot"
+# ==============================
+
 BACKUP_DIR="/root/bot_backup_$(date +%Y%m%d_%H%M%S)"
 
 echo "========== 开始更新闲鱼 Bot =========="
@@ -21,10 +26,10 @@ else
 fi
 
 # 2. 上传项目文件
-# ⚠️ 请确保已将桌面 bot 目录的所有文件上传到服务器 $BOT_DIR
-# 可以用 scp -r C:\Users\admin\Desktop\bot\* root@47.120.23.164:$BOT_DIR/
+# ⚠️ 请确保已将本地 bot 目录的所有文件上传到服务器 $BOT_DIR
+# 可以用 scp -r <本地bot目录>/* ${SERVER_USER}@${SERVER_IP}:$BOT_DIR/
 echo "[2/5] 请确保已上传项目文件到服务器"
-echo "  执行: scp -r C:\\Users\\admin\\Desktop\\bot\\* root@47.120.23.164:$BOT_DIR/"
+echo "  执行: scp -r <本地bot目录>/* ${SERVER_USER}@${SERVER_IP}:$BOT_DIR/"
 
 # 3. 检查 Node.js
 echo "[3/5] 检查 Node.js 环境..."
@@ -40,7 +45,6 @@ fi
 echo "[4/5] 安装项目依赖..."
 cd "$BOT_DIR"
 if [ -f "package.json" ]; then
-    # 删除旧的 node_modules（排除 goofish-client 的本地链接问题）
     rm -rf node_modules
     npm install --production
     echo "  依赖安装完成"
@@ -71,7 +75,6 @@ if [ -n "$OLD_PID" ]; then
     echo "  正在停止旧进程 (PID: $OLD_PID)..."
     kill "$OLD_PID" 2>/dev/null || true
     sleep 2
-    # 强制终止
     if kill -0 "$OLD_PID" 2>/dev/null; then
         kill -9 "$OLD_PID" 2>/dev/null || true
     fi

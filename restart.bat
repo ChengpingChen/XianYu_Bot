@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul 2>&1
 echo ====== 重启闲鱼 Bot ======
-cd /d "C:\Users\admin\Desktop\bot"
+cd /d "%~dp0"
 
 echo [1/3] 停止 PM2 进程...
 call npx pm2 delete goofish-bot >nul 2>&1

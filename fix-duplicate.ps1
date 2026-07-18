@@ -1,7 +1,10 @@
 # Fix 1: Add deliveryPending Set to prevent duplicate auto-delivery
 # Fix 2: Ensure pre-payment messages skip AI replies properly
 
-$file = "C:\Users\admin\Desktop\bot\bot.js"
+$file = Join-Path $PSScriptRoot "bot.js"
+if (-not (Test-Path $file)) {
+    $file = Join-Path (Split-Path $PSScriptRoot -Parent) "bot.js"
+}
 $content = Get-Content $file -Raw
 
 # Fix 1: Add deliveryPending Set definition
@@ -44,7 +47,6 @@ $new3 = @'
 $content = $content.Replace($old3, $new3)
 
 # Fix 4: Add "拍下" to the PRE_PAYMENT_KEYWORDS to ensure pre-payment messages are filtered
-# Also ensure the filter works for system messages in formatted handler
 $old4 = "    '已拍下', '待付款', '待成交', '待刀成', '待确认', '已小刀',"
 $new4 = "    '已拍下', '待付款', '待成交', '待刀成', '待确认', '已小刀', '拍下了',"
 
