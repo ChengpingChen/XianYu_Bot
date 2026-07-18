@@ -1,0 +1,40 @@
+{
+  "name": "goofish-bot",
+  "version": "2.1.0",
+  "description": "闲鱼自动回复机器人 — DeepSeek AI 驱动",
+  "main": "bot.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js",
+    "token": "node read-token.js",
+    "token:print": "node read-token.js --print",
+    "sync-products": "node scripts/sync-products.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [
+    "goofish",
+    "闲鱼",
+    "bot",
+    "auto-reply",
+    "deepseek"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "goofish-client": "^1.4.0",
+    "leveldown": "^6.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.7.0",
+    "jest": "^30.4.2"
+  }
+}
